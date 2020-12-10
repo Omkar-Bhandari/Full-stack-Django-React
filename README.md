@@ -1,2 +1,4 @@
 # Full-stack-Django-React
-Music Controller 
+Music Controller Web app 
+Made with Django and React 
+Spotify Api
