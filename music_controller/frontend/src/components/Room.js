@@ -16,7 +16,13 @@ export default class Root extends Component{
 
     getRoomDetails(){
         fetch('/api/get-room'+'?code='+this.roomCode)
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok){
+                this.props.leaveRoomCallback();
+                this.props.history.push('/');
+            }
+            return response.json();
+        })
         .then((data) => {
             this.setState({
                 votesToSkip : data.votes_to_skip,
@@ -33,7 +39,8 @@ export default class Root extends Component{
         }
         fetch('/api/leave-room',requestOptions)
         .then((_response) => {
-            this.props.history.push('/')
+            this.props.leaveRoomCallback();
+            this.props.history.push('/');
         });
     }
 
@@ -61,7 +68,7 @@ export default class Root extends Component{
                     </Typography>
                 </Grid>
                 <Grid item xs={12} align = "center">
-                    <Button variant='contained' color='secondary'>
+                    <Button variant='contained' color='secondary' onClick={this.leaveButtonPressed}>
                         Leave Room
                     </Button>
                 </Grid>
